@@ -10,7 +10,7 @@ Note: The plugin is very flakey on GPT-3.5, I recommend using GPT-4. However, it
 - Allows Auto-GPT to click elements.
 - Allows Auto-GPT to type text.
 - Allows Auto-GPT select elements.
-- Brings Auto-GPT to scroll
+- Allows Auto-GPT to scroll
 
 ## Installation
 
