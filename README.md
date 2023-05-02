@@ -4,6 +4,8 @@
 
 The AutoGPT Web Interaction Plugin enables Auto-GPT to interact with websites.
 
+Note: The plugin is very flakey on GPT-3.5, I recommend using GPT-4. However, it can still perform basic tasks on GPT-3.5.
+
 ## Key Features:
 - Allows Auto-GPT to click elements.
 - Allows Auto-GPT to type text.
