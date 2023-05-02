@@ -1,22 +1,7 @@
 from playwright.sync_api import sync_playwright
 from sys import argv, exit, platform
 
-prompt_template = """
-The format of the browser content is highly simplified; all formatting elements are stripped.
-Interactive elements such as links, inputs, buttons are represented like this:
-
-		<link id=1>text</link>
-		<button id=2>text</button>
-		<input id=3>text</input>
-
-Images are rendered as their alt text like this:
-
-		<img id=4 alt=""/>
-
-Don't try to interact with elements that you can't see.
-"""
-
-black_listed_elements = set(["html", "head", "title", "meta", "iframe", "body", "script", "style", "path", "svg", "br", "::marker",])
+black_listed_elements = set(["html", "head", "title", "meta", "iframe", "body", "style", "script", "path", "svg", "br", "::marker",])
 
 
 def start_browser():
@@ -84,7 +69,7 @@ def click(id):
         page.mouse.click(x, y)
     else:
         return "Could not find element"
-    
+
     return "Successfully clicked!"
 
 def type(id, text):
@@ -423,5 +408,13 @@ def crawl():
             )
         id_counter += 1
 
-    return repr(elements_of_interest)
+    if len(elements_of_interest) > 125:
+        idCounter =0
+        divided_elements_of_interest = []
+        while idCounter <= 125:
+            divided_elements_of_interest.append(elements_of_interest[idCounter])
+            idCounter+=1
 
+        return repr(divided_elements_of_interest) + "This is not part of the DOM, note that not the entire DOM was returned as it exceeded the context limit. If you're sure what you're need is not included in this DOM, you should find a workaround."
+
+    return repr(elements_of_interest)

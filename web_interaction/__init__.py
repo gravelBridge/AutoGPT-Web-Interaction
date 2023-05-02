@@ -50,6 +50,8 @@ class AutoGPTWebInteraction(AutoGPTPluginTemplate):
         Don't try to interact with elements that you can't see.
 
         CRITICAL: The id parameter specified in <img id=4 alt=""/>, <link id=1>text</link>, <button id=2>text</button> etc.. MUST be used for all web_interaction commands.
+        CRITICAL: Also note, if you are on google.com trying to search something, you should use the id of 3.
+        CRITICAL: Use the command get_dom every time before executing any web_interaction plugin command.
         """)
 
         prompt.add_command("start_browser", "Starts the browser for web interaction. Must be ran before attempting to perform any other web interaction plugins.", {}, start_browser)
