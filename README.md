@@ -1,2 +1,2 @@
-# AutoGPT_Web_Interaction_Plugin
+# AutoGPT Web_Interaction Plugin
 A plugin to enable AutoGPT to interact with websites.
