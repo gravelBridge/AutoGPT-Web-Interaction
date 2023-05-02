@@ -16,11 +16,13 @@ Follow these steps to configure the Auto-GPT Email Plugin:
 
 ### 1. Clone this repository.
 
-### 2. Zip/Compress the web_interaction folder
+### 2. cd into the directory, and run pip install -r requirements.txt
 
-### 3. Drag the new zip file into the Auto-GPT plugins folder.
+### 3. Zip/Compress the web_interaction folder
 
-### 4. Set `ALLOWLISTED_PLUGINS=AutoGPTWebInteraction,example-plugin1,example-plugin2,etc` in your AutoGPT `.env` file.
+### 4. Drag the new zip file into the Auto-GPT plugins folder.
 
-### 5. Edit goals
+### 5. Set `ALLOWLISTED_PLUGINS=AutoGPTWebInteraction,example-plugin1,example-plugin2,etc` in your AutoGPT `.env` file.
+
+### 6. Edit goals
 When using Auto-GPT please set one of the goals to "Remember to use the Web Interaction Plugin possible".
