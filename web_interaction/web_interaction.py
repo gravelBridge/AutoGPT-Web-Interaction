@@ -73,10 +73,10 @@ def click(id):
     return "Successfully clicked!"
 
 def type(id, text):
-    click(id)
+    click(int(id))
     page.keyboard.type(text)
 
-    return "Typed " + text + " into " + id + "!"
+    return "Typed " + text + " into " + id
 
 def enter():
     page.keyboard.press("Enter")
@@ -84,11 +84,18 @@ def enter():
     return "Pressed enter!"
 
 def type_and_enter(id, text):
-    click(id)
+    click(int(id))
     page.keyboard.type(text)
     page.keyboard.press("Enter")
 
     return "Inputted text, and pressed enter!"
+
+def get_current_url():
+    try:
+        current_url = page.url
+        return current_url
+    except:
+        return "Error retrieving current URL."
 
 def crawl():
     page_state_as_text = []
@@ -97,21 +104,21 @@ def crawl():
     if platform == "darwin" and device_pixel_ratio == 1:  # lies
         device_pixel_ratio = 2
 
-    win_scroll_x 		= page.evaluate("window.scrollX")
-    win_scroll_y 		= page.evaluate("window.scrollY")
-    win_upper_bound 	= page.evaluate("window.pageYOffset")
-    win_left_bound 		= page.evaluate("window.pageXOffset") 
-    win_width 			= page.evaluate("window.screen.width")
-    win_height 			= page.evaluate("window.screen.height")
-    win_right_bound 	= win_left_bound + win_width
-    win_lower_bound 	= win_upper_bound + win_height
+    win_scroll_x        = page.evaluate("window.scrollX")
+    win_scroll_y        = page.evaluate("window.scrollY")
+    win_upper_bound     = page.evaluate("window.pageYOffset")
+    win_left_bound      = page.evaluate("window.pageXOffset") 
+    win_width           = page.evaluate("window.screen.width")
+    win_height          = page.evaluate("window.screen.height")
+    win_right_bound     = win_left_bound + win_width
+    win_lower_bound     = win_upper_bound + win_height
     document_offset_height = page.evaluate("document.body.offsetHeight")
     document_scroll_height = page.evaluate("document.body.scrollHeight")
 
-#		percentage_progress_start = (win_upper_bound / document_scroll_height) * 100
-#		percentage_progress_end = (
-#			(win_height + win_upper_bound) / document_scroll_height
-#		) * 100
+#       percentage_progress_start = (win_upper_bound / document_scroll_height) * 100
+#       percentage_progress_end = (
+#           (win_height + win_upper_bound) / document_scroll_height
+#       ) * 100
     percentage_progress_start = 1
     percentage_progress_end = 2
 
@@ -129,29 +136,29 @@ def crawl():
         "DOMSnapshot.captureSnapshot",
         {"computedStyles": [], "includeDOMRects": True, "includePaintOrder": True},
     )
-    strings	 	= tree["strings"]
-    document 	= tree["documents"][0]
-    nodes 		= document["nodes"]
+    strings     = tree["strings"]
+    document    = tree["documents"][0]
+    nodes       = document["nodes"]
     backend_node_id = nodes["backendNodeId"]
-    attributes 	= nodes["attributes"]
-    node_value 	= nodes["nodeValue"]
-    parent 		= nodes["parentIndex"]
-    node_types 	= nodes["nodeType"]
-    node_names 	= nodes["nodeName"]
+    attributes  = nodes["attributes"]
+    node_value  = nodes["nodeValue"]
+    parent      = nodes["parentIndex"]
+    node_types  = nodes["nodeType"]
+    node_names  = nodes["nodeName"]
     is_clickable = set(nodes["isClickable"]["index"])
 
-    text_value 			= nodes["textValue"]
-    text_value_index 	= text_value["index"]
-    text_value_values 	= text_value["value"]
+    text_value          = nodes["textValue"]
+    text_value_index    = text_value["index"]
+    text_value_values   = text_value["value"]
 
-    input_value 		= nodes["inputValue"]
-    input_value_index 	= input_value["index"]
-    input_value_values 	= input_value["value"]
+    input_value         = nodes["inputValue"]
+    input_value_index   = input_value["index"]
+    input_value_values  = input_value["value"]
 
-    input_checked 		= nodes["inputChecked"]
-    layout 				= document["layout"]
-    layout_node_index 	= layout["nodeIndex"]
-    bounds 				= layout["bounds"]
+    input_checked       = nodes["inputChecked"]
+    layout              = document["layout"]
+    layout_node_index   = layout["nodeIndex"]
+    bounds              = layout["bounds"]
 
     cursor = 0
     html_elements_text = []
@@ -165,7 +172,7 @@ def crawl():
     def convert_name(node_name, has_click_handler):
         if node_name == "a":
             return "link"
-        if node_name == "input":
+        if node_name == "input" or node_name == "textarea":
             return "input"
         if node_name == "img":
             return "img"
@@ -350,7 +357,7 @@ def crawl():
 
     # lets filter further to remove anything that does not hold any text nor has click handlers + merge text from leaf#text nodes with the parent
     elements_of_interest= []
-    id_counter 			= 0
+    id_counter          = 0
 
     for element in elements_in_view_port:
         node_index = element.get("node_index")

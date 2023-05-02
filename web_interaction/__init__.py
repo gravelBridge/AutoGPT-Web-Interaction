@@ -32,6 +32,7 @@ class AutoGPTWebInteraction(AutoGPTPluginTemplate):
             enter,
             crawl,
             type_and_enter,
+            get_current_url,
         )
 
         prompt.add_resource("""
@@ -49,9 +50,9 @@ class AutoGPTWebInteraction(AutoGPTPluginTemplate):
 
         Don't try to interact with elements that you can't see.
 
-        CRITICAL: The id parameter specified in <img id=4 alt=""/>, <link id=1>text</link>, <button id=2>text</button> etc.. MUST be used for all web_interaction commands.
-        CRITICAL: Also note, if you are on google.com trying to search something, you should use the id of 3.
+        CRITICAL: The id parameter specified in <img id=4 alt=""/>, <link id=1>text</link>, <button id=2>text</button> etc.. MUST be used for all web_interaction commands that require an id.
         CRITICAL: Use the command get_dom every time before executing any web_interaction plugin command.
+        CRITICAL: When trying to search something on Google, don't call the dom function. Instead, just use the id value of 3
         """)
 
         prompt.add_command("start_browser", "Starts the browser for web interaction. Must be ran before attempting to perform any other web interaction plugins.", {}, start_browser)
@@ -67,6 +68,10 @@ class AutoGPTWebInteraction(AutoGPTPluginTemplate):
         prompt.add_command("input_text_by_id_and_press_enter", "Inputs text to an element. Specify the id with the unique id received from the get_dom command. Also presses enter after finishing inputting text. CRITICAL: The ID must be the integer id from the get_dom command.", {"id":"<id>", "text":"<text>"}, type_and_enter)
 
         prompt.add_command("scroll", "Scrolls the current website up or down one page. In the arguments, use either \"up\" or \"down\"", {"direction":"<directionToScroll>"}, scroll)
+
+        prompt.add_command("enter", "Presses enter on the keyboard on the current website.", {}, enter)
+
+        prompt.add_command("get_url", "Retrieves the current url that the web_interaction plugin is on.", {}, get_current_url)
 
         return prompt
 
