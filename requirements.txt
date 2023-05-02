@@ -1,0 +1,4 @@
+playwright
+colorama
+typing
+sys
